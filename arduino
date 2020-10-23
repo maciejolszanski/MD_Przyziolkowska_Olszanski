@@ -1,6 +1,8 @@
 //to jest kod do Arduino
 //ma on obslugiwac przycisk, LCD, serwo oraz ultradźwiękowy czujnik odległości
 
+//w celu skorzystanie z danego fragmentu kodu należy go odkomentowac
+
 //kod obslugujacy przycisk i zapalajacy diode
 /*
 void setup() {
@@ -57,5 +59,57 @@ void loop() {
   lcd.print("OLSZANSKI");
   delay(1000);
   lcd.clear();
+}
+*/
+
+//obsluga ultradzwiekowego czujnika odleglosci
+/*
+#define trigPin 12
+#define echoPin 11
+
+int zmierzOdleglosc()
+{
+  long czas, dystans;
+
+    digitalWrite(trigPin,LOW);
+    delayMicroseconds(2);
+    digitalWrite(trigPin,HIGH);
+    delayMicroseconds(10);
+    digitalWrite(trigPin,LOW);
+
+    czas = pulseIn(echoPin, HIGH);
+    dystans = czas/58;
+
+    return dystans;
+}
+
+void zakres (int a, int b)
+{
+  int jakDaleko = zmierzOdleglosc();
+  if((jakDaleko > a) && (jakDaleko < b))
+  {
+    digitalWrite(2,HIGH);
+  }
+  else
+  {
+    digitalWrite(2,LOW);
+  }
+}
+
+
+void setup() {
+    Serial.begin(9600);
+    pinMode(echoPin,INPUT);
+    pinMode(trigPin,OUTPUT);
+    pinMode(2,OUTPUT);
+}
+
+void loop() {
+  
+    zakres(10,25);
+    Serial.print(zmierzOdleglosc());
+    Serial.print(" cm\n");
+  
+    delay(500);
 }
 */
