@@ -1,2 +1,26 @@
 //to jest kod do Arduino
 //ma on obslugiwac przycisk, LCD, serwo oraz ultradźwiękowy czujnik odległości
+
+//kod obslugujacy przycisk i zapalajacy diode
+/*
+void setup() {
+  // put your setup code here, to run once:
+  pinMode(8,OUTPUT);
+  pinMode(7,INPUT_PULLUP);
+  digitalWrite(8,LOW);
+ 
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+  if(digitalRead(7) == LOW)
+  {
+    digitalWrite(8,HIGH);
+    
+  }
+  else
+  {
+    digitalWrite(8,LOW);
+  }
+}
+*/
