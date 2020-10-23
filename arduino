@@ -113,3 +113,38 @@ void loop() {
     delay(500);
 }
 */
+
+//obsluga serwomechanizmu
+/*
+#include <Servo.h> 
+Servo serwo;  
+int pozycja = 0; 
+int zmiana = 10; 
+bool prawo = true;
+void setup() 
+{ 
+  serwo.attach(11);  
+} 
+void loop() 
+{  
+  if (prawo == true) { 
+    pozycja = pozycja + zmiana;
+    serwo.write(pozycja); 
+      if (pozycja > 180)
+      {
+        prawo = false;
+      }
+  } else if (prawo == false) { 
+    pozycja = pozycja - zmiana;
+      if (pozycja <= 0)
+      {
+        pozycja = 0;
+        prawo = true;
+      }
+      serwo.write(pozycja);
+  }    
+
+  
+ delay(200);                       
+}
+*/
