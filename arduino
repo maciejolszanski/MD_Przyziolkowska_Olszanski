@@ -1,2 +1,150 @@
 //to jest kod do Arduino
 //ma on obslugiwac przycisk, LCD, serwo oraz ultradźwiękowy czujnik odległości
+
+//w celu skorzystanie z danego fragmentu kodu należy go odkomentowac
+
+//kod obslugujacy przycisk i zapalajacy diode
+/*
+void setup() {
+  // put your setup code here, to run once:
+  pinMode(8,OUTPUT);
+  pinMode(7,INPUT_PULLUP);
+  digitalWrite(8,LOW);
+ 
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+  if(digitalRead(7) == LOW)
+  {
+    digitalWrite(8,HIGH);
+    
+  }
+  else
+  {
+    digitalWrite(8,LOW);
+  }
+}
+*/
+
+
+//czesc kodu odpowiedzialna za obsluge LCD przy uzyciu konwertera I2C
+//dzieki niemu sterownie wyswietlaczem odbywa się za pomocą tylko 2 przewodów
+//odpowiadja one za sygnały SDA i SCL
+/*
+#include <Wire.h>
+#include <LiquidCrystal_PCF8574.h>  
+#define LCD_add 0x27
+LiquidCrystal_PCF8574 lcd(LCD_add);
+void setup() {
+  // put your setup code here, to run once:
+  Wire.begin();
+  lcd.begin(16, 2);
+  lcd.setBacklight(true);
+}
+void loop() {
+  // put your main code here, to run repeatedly:
+  delay(1000);
+  lcd.print("MECHATRONIC");
+  delay(1000);
+  lcd.setCursor(0,1);
+  lcd.print("DESIGN");
+  delay(1000);
+  lcd.clear();
+  lcd.setCursor(0,0);
+  delay(1000);
+  lcd.print("PRZYZIOLKOWSKA");
+  delay(1000);
+  lcd.setCursor(0,1);
+  lcd.print("OLSZANSKI");
+  delay(1000);
+  lcd.clear();
+}
+*/
+
+//obsluga ultradzwiekowego czujnika odleglosci
+/*
+#define trigPin 12
+#define echoPin 11
+
+int zmierzOdleglosc()
+{
+  long czas, dystans;
+
+    digitalWrite(trigPin,LOW);
+    delayMicroseconds(2);
+    digitalWrite(trigPin,HIGH);
+    delayMicroseconds(10);
+    digitalWrite(trigPin,LOW);
+
+    czas = pulseIn(echoPin, HIGH);
+    dystans = czas/58;
+
+    return dystans;
+}
+
+void zakres (int a, int b)
+{
+  int jakDaleko = zmierzOdleglosc();
+  if((jakDaleko > a) && (jakDaleko < b))
+  {
+    digitalWrite(2,HIGH);
+  }
+  else
+  {
+    digitalWrite(2,LOW);
+  }
+}
+
+
+void setup() {
+    Serial.begin(9600);
+    pinMode(echoPin,INPUT);
+    pinMode(trigPin,OUTPUT);
+    pinMode(2,OUTPUT);
+}
+
+void loop() {
+  
+    zakres(10,25);
+    Serial.print(zmierzOdleglosc());
+    Serial.print(" cm\n");
+  
+    delay(500);
+}
+*/
+
+//obsluga serwomechanizmu
+/*
+#include <Servo.h> 
+Servo serwo;  
+int pozycja = 0; 
+int zmiana = 10; 
+bool prawo = true;
+void setup() 
+{ 
+  serwo.attach(11);  
+} 
+void loop() 
+{  
+  if (prawo == true) { 
+    pozycja = pozycja + zmiana;
+    serwo.write(pozycja); 
+      if (pozycja > 180)
+      {
+        prawo = false;
+      }
+  } else if (prawo == false) { 
+    pozycja = pozycja - zmiana;
+      if (pozycja <= 0)
+      {
+        pozycja = 0;
+        prawo = true;
+      }
+      serwo.write(pozycja);
+  }    
+
+  
+ delay(200);                       
+}
+*/
