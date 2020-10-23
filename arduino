@@ -24,3 +24,38 @@ void loop() {
   }
 }
 */
+
+
+//czesc kodu odpowiedzialna za obsluge LCD przy uzyciu konwertera I2C
+//dzieki niemu sterownie wyswietlaczem odbywa się za pomocą tylko 2 przewodów
+//odpowiadja one za sygnały SDA i SCL
+/*
+#include <Wire.h>
+#include <LiquidCrystal_PCF8574.h>  
+#define LCD_add 0x27
+LiquidCrystal_PCF8574 lcd(LCD_add);
+void setup() {
+  // put your setup code here, to run once:
+  Wire.begin();
+  lcd.begin(16, 2);
+  lcd.setBacklight(true);
+}
+void loop() {
+  // put your main code here, to run repeatedly:
+  delay(1000);
+  lcd.print("MECHATRONIC");
+  delay(1000);
+  lcd.setCursor(0,1);
+  lcd.print("DESIGN");
+  delay(1000);
+  lcd.clear();
+  lcd.setCursor(0,0);
+  delay(1000);
+  lcd.print("PRZYZIOLKOWSKA");
+  delay(1000);
+  lcd.setCursor(0,1);
+  lcd.print("OLSZANSKI");
+  delay(1000);
+  lcd.clear();
+}
+*/
