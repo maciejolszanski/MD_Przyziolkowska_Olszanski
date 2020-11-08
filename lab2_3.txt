@@ -1,0 +1,76 @@
+
+float ster;
+float uchyb;
+int wartZadana = 122;
+float K = 1.5;
+
+
+
+int zmierzOdleglosc() {
+  long czas, dystans;
+ 
+  digitalWrite(12, LOW);
+  delayMicroseconds(2);
+  digitalWrite(12, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(12, LOW);
+ 
+  czas = pulseIn(11, HIGH);
+  dystans = czas / 58;
+ 
+  return dystans;
+}
+
+void setup() { 
+ 
+  
+  pinMode(6, OUTPUT); //Sygnał PWM silnika nr 1
+  
+  Serial.begin(9600);
+  
+  pinMode(7, OUTPUT); //Sygnały sterujące kierunkiem obrotów silnika nr 1
+  pinMode(8, OUTPUT);
+  
+  pinMode(12,OUTPUT);
+  pinMode(11,INPUT);
+ 
+} 
+ 
+void loop()  { 
+  
+  int wartAkt = zmierzOdleglosc();
+  uchyb = wartZadana - wartAkt;
+  
+  ster = K * uchyb;
+  ster = floor(ster);
+  
+  if(ster >= 255)
+    ster = 255;
+  else if (ster <= -255)
+    ster = -255;
+ 
+  Serial.print("Aktualna ");
+  Serial.print(wartAkt);
+  Serial.print("\n");
+  Serial.print("Uchyb ");
+  Serial.print(uchyb);
+  Serial.print("\n");
+  Serial.print("Ster ");
+  Serial.print(ster);
+  Serial.print("\n");	
+  
+   if(ster > 0)
+   {
+    analogWrite(6,abs(ster));
+   	digitalWrite(7, HIGH); //Silnik - obroty w lewo
+  	digitalWrite(8, LOW);
+   }
+   
+    if(ster < 0)
+   {
+    analogWrite(6,abs(ster));  
+   	digitalWrite(7, LOW); //Silnik - obroty w prawo
+  	digitalWrite(8, HIGH);
+   }
+
+}

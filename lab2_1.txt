@@ -1,0 +1,99 @@
+
+unsigned long aktualnyCzas = 0;
+unsigned long zapamietanyCzas = 0;
+unsigned long roznicaCzasu = 0;
+
+int uruchomienia = 0;
+bool dzialanie = false;
+bool dzialanie_LEWO = true;
+bool dzialanie_PRAWO = false;
+bool wcisniecie_START = false;
+bool wcisniecie_LEWO = false;
+bool wcisniecie_PRAWO = false;
+
+void setup() { 
+  Serial.begin(9600);
+  
+  pinMode(6, OUTPUT); //Sygnał PWM silnika nr 1
+  digitalWrite(6, HIGH); //Ustawiamy (na stałe) stan wysoki na pinie 6
+  
+  pinMode(7, OUTPUT); //Sygnały sterujące kierunkiem obrotów silnika nr 1
+  pinMode(8, OUTPUT);
+  
+  //przyciski
+  pinMode(13, INPUT); 	//START
+  pinMode(12, INPUT);	//W LEWO
+  pinMode(11, INPUT);	//W PRAWO
+  
+ 
+} 
+ 
+void loop()  { 
+  
+  aktualnyCzas = millis();
+  roznicaCzasu = aktualnyCzas - zapamietanyCzas;  
+  
+  //wyeliminowanie drgania stykow
+  if (roznicaCzasu > 100)
+  {
+    zapamietanyCzas = aktualnyCzas;
+    
+    //uruchomienie 
+    wcisniecie_START = digitalRead(13);
+    
+    if (wcisniecie_START == HIGH)
+    {
+      
+      if (dzialanie == false)
+      {
+        dzialanie = true;
+        uruchomienia = uruchomienia+1;
+        Serial.print("liczba uruchomien to "); 
+        Serial.print(uruchomienia);
+        Serial.print("\n");
+      }
+      else
+        dzialanie = false;    
+    }
+    
+    wcisniecie_LEWO = digitalRead(12);
+    
+    if (wcisniecie_LEWO == HIGH)
+    {
+      dzialanie_PRAWO = false;
+      dzialanie_LEWO = true;
+      Serial.println("LEWO");
+    }
+    
+    wcisniecie_PRAWO = digitalRead(11);
+    
+    if (wcisniecie_PRAWO == HIGH)
+    {
+      dzialanie_PRAWO = true;
+      dzialanie_LEWO = false; 
+      Serial.println("PRAWO");
+    }
+  
+  }
+  
+  if (dzialanie)
+ {	
+    if(dzialanie_LEWO)
+    {
+   		digitalWrite(7, HIGH); //Silnik - obroty w lewo
+  		digitalWrite(8, LOW);
+    }
+    
+     if(dzialanie_PRAWO)
+    {
+   		digitalWrite(7, LOW); //Silnik - obroty w prawo
+  		digitalWrite(8, HIGH);
+    }
+   
+ }
+ else
+ {
+    digitalWrite(7, LOW); //zatrzymanie silnika
+  	digitalWrite(8, LOW);
+ }
+}

@@ -1,0 +1,110 @@
+
+int liczba1;
+int liczba2;
+int dzialanie;
+float wynik;
+
+int dodawanie(int a, int b)
+{  
+ 	return (a + b);
+}
+
+int odejmowanie(int a, int b)
+{
+ 	return (a - b); 
+}
+
+int mnozenie(int a, int b)
+{
+  	return (a * b);
+}
+
+float dzielenie(int a, int b)
+{
+    return (a*1.0 / b); 	
+}
+
+void setup()
+{
+  Serial.begin(9600);
+}
+
+void loop()
+{
+  
+  bool error = false;
+  
+  Serial.println("podaj pierwsza liczbe");
+  
+  while(Serial.available() == 0)
+ {}
+  if(Serial.available()>0)
+  {
+  	liczba1 = Serial.parseInt();
+    Serial.println(liczba1);
+    
+  }
+  
+  Serial.println("podaj druga liczbe");
+  
+  while(Serial.available() == 0)
+ {}
+  if(Serial.available()>0)
+  {
+  	liczba2 = Serial.parseInt();
+    Serial.println(liczba2);
+    
+  }
+  
+  Serial.println("wybierz dzialanie");
+  Serial.println("1 - dodawanie");
+  Serial.println("2 - odejmowanie");
+  Serial.println("3 - mnozenie");
+  Serial.println("4 - dzielenie");
+  
+  while(Serial.available() == 0)
+ {}
+  if(Serial.available()>0)
+  {
+  	dzialanie = Serial.parseInt();
+    
+  }
+  
+  switch (dzialanie)
+  {
+    case 1:
+    {
+      wynik = dodawanie(liczba1, liczba2);
+      break;
+    }
+  	case 2:
+    {
+      wynik = odejmowanie(liczba1, liczba2);
+       break;
+    }
+  	case 3:
+    {
+      wynik = mnozenie(liczba1, liczba2);
+       break;
+    }
+  	case 4:
+    {
+      if(liczba2 == 0)
+      {
+        Serial.println("nie mozna dzielic przez 0!");
+          error = true;
+      }
+      else
+      {
+      wynik = dzielenie(liczba1, liczba2);
+      }
+       break;
+    }
+  }
+  
+  if(error == false)
+  Serial.println(wynik);
+  
+    
+  
+}
